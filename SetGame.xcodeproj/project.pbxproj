@@ -8,18 +8,32 @@
 
 /* Begin PBXBuildFile section */
 		AB36D28F26D2321000D6589C /* SetGameApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB36D28E26D2321000D6589C /* SetGameApp.swift */; };
-		AB36D29126D2321000D6589C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB36D29026D2321000D6589C /* ContentView.swift */; };
+		AB36D29126D2321000D6589C /* SetGameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB36D29026D2321000D6589C /* SetGameView.swift */; };
 		AB36D29326D2321500D6589C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AB36D29226D2321500D6589C /* Assets.xcassets */; };
 		AB36D29626D2321500D6589C /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AB36D29526D2321500D6589C /* Preview Assets.xcassets */; };
+		AB36D29E26D233B800D6589C /* SetGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB36D29D26D233B800D6589C /* SetGame.swift */; };
+		AB36D2A026D2364200D6589C /* SetGameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB36D29F26D2364200D6589C /* SetGameViewModel.swift */; };
+		ABEE390E26D2439A0035BEB8 /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABEE390D26D2439A0035BEB8 /* Card.swift */; };
+		ABEE391026D249D80035BEB8 /* AspectVGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABEE390F26D249D80035BEB8 /* AspectVGrid.swift */; };
+		ABEE391226D24D490035BEB8 /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABEE391126D24D490035BEB8 /* CardView.swift */; };
+		ABEE391426D2577B0035BEB8 /* CardShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABEE391326D2577B0035BEB8 /* CardShape.swift */; };
+		ABEE391626D27A150035BEB8 /* Diamond.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABEE391526D27A150035BEB8 /* Diamond.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		AB36D28B26D2321000D6589C /* SetGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SetGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB36D28E26D2321000D6589C /* SetGameApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetGameApp.swift; sourceTree = "<group>"; };
-		AB36D29026D2321000D6589C /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		AB36D29026D2321000D6589C /* SetGameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetGameView.swift; sourceTree = "<group>"; };
 		AB36D29226D2321500D6589C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AB36D29526D2321500D6589C /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		AB36D29726D2321500D6589C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AB36D29D26D233B800D6589C /* SetGame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetGame.swift; sourceTree = "<group>"; };
+		AB36D29F26D2364200D6589C /* SetGameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetGameViewModel.swift; sourceTree = "<group>"; };
+		ABEE390D26D2439A0035BEB8 /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
+		ABEE390F26D249D80035BEB8 /* AspectVGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AspectVGrid.swift; sourceTree = "<group>"; };
+		ABEE391126D24D490035BEB8 /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
+		ABEE391326D2577B0035BEB8 /* CardShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardShape.swift; sourceTree = "<group>"; };
+		ABEE391526D27A150035BEB8 /* Diamond.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Diamond.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -52,8 +66,11 @@
 		AB36D28D26D2321000D6589C /* SetGame */ = {
 			isa = PBXGroup;
 			children = (
+				ABEE391726D27B280035BEB8 /* View */,
 				AB36D28E26D2321000D6589C /* SetGameApp.swift */,
-				AB36D29026D2321000D6589C /* ContentView.swift */,
+				AB36D29F26D2364200D6589C /* SetGameViewModel.swift */,
+				AB36D29D26D233B800D6589C /* SetGame.swift */,
+				ABEE390D26D2439A0035BEB8 /* Card.swift */,
 				AB36D29226D2321500D6589C /* Assets.xcassets */,
 				AB36D29726D2321500D6589C /* Info.plist */,
 				AB36D29426D2321500D6589C /* Preview Content */,
@@ -67,6 +84,18 @@
 				AB36D29526D2321500D6589C /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		ABEE391726D27B280035BEB8 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				AB36D29026D2321000D6589C /* SetGameView.swift */,
+				ABEE391126D24D490035BEB8 /* CardView.swift */,
+				ABEE391326D2577B0035BEB8 /* CardShape.swift */,
+				ABEE391526D27A150035BEB8 /* Diamond.swift */,
+				ABEE390F26D249D80035BEB8 /* AspectVGrid.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -138,8 +167,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AB36D29126D2321000D6589C /* ContentView.swift in Sources */,
+				ABEE391226D24D490035BEB8 /* CardView.swift in Sources */,
+				AB36D29126D2321000D6589C /* SetGameView.swift in Sources */,
+				ABEE390E26D2439A0035BEB8 /* Card.swift in Sources */,
+				ABEE391026D249D80035BEB8 /* AspectVGrid.swift in Sources */,
+				AB36D29E26D233B800D6589C /* SetGame.swift in Sources */,
+				ABEE391426D2577B0035BEB8 /* CardShape.swift in Sources */,
+				ABEE391626D27A150035BEB8 /* Diamond.swift in Sources */,
 				AB36D28F26D2321000D6589C /* SetGameApp.swift in Sources */,
+				AB36D2A026D2364200D6589C /* SetGameViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
