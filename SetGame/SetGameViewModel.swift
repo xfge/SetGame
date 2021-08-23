@@ -19,18 +19,29 @@ class SetGameViewModel: ObservableObject {
         model.activeCards
     }
     
-    func isSelected(card: Card) -> Bool {
-        model.selectedCards.contains(where: { $0.id == card.id })
+    var isDealCardsDisabled: Bool {
+        model.hasNoOpenCards
     }
     
-    func isMatched(card: Card) -> Bool {
-        model.matchedCards.contains(where: { $0.id == card.id })
+    func matchingStatus(for card: Card) -> MatchingStatus {
+        if model.matchedCards.contains(where: { $0.id == card.id }) {
+            return model.selectedCards.contains(where: { $0.id == card.id })
+                ? .matched
+                : .hidden
+        } else if model.mismatchedCards.contains(where: { $0.id == card.id }) {
+            return .mismatched
+        } else if model.selectedCards.contains(where: { $0.id == card.id }) {
+            return .selected
+        } else {
+            return .none
+        }
     }
     
     // MARK: - Intents
 
     func tap(card: Card) {
-        if !isMatched(card: card) {
+        let matchingStatus = matchingStatus(for: card)
+        if matchingStatus != .matched {
             model.tap(card: card)
         }
     }
@@ -42,5 +53,9 @@ class SetGameViewModel: ObservableObject {
     
     func dealCards() {
         model.dealCards(3)
+    }
+    
+    enum MatchingStatus {
+        case none, selected, matched, mismatched, hidden
     }
 }

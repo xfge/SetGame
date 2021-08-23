@@ -12,34 +12,41 @@ struct SetGameView: View {
     
     var body: some View {
         VStack {
-            HStack {
-                Text("Set")
-                Spacer()
-                Button(action: {
-                    game.restart()
-                }, label: {
-                    Text("Restart")
-                })
-            }
-
+            headerBar
             let cardPadding = CGFloat(40 / (game.cards.count + 1) + 3)
             AspectVGrid(items: game.cards, aspectRatio: 2/3) { card in
-                CardView(card: card,
-                         isSelected: game.isSelected(card: card),
-                         isMatched: game.isMatched(card: card))
+                let matchingStatus = game.matchingStatus(for: card)
+                CardView(card: card, matchingStatus: matchingStatus)
                     .padding(cardPadding)
+                    .opacity(matchingStatus == .hidden ? 0 : 1)
                     .onTapGesture {
                         game.tap(card: card)
                     }
             }
-            
-            Button(action: {
-                game.dealCards()
-            }, label: {
-                Text("Deal cards")
-            })
+            bottomBar
         }
         .padding(.horizontal)
+    }
+    
+    var headerBar: some View {
+        HStack {
+            Text("Set").font(.title)
+            Spacer()
+            Button(action: {
+                game.restart()
+            }, label: {
+                Text("Restart")
+            })
+        }
+    }
+    
+    var bottomBar: some View {
+        Button(action: {
+            game.dealCards()
+        }, label: {
+            Text("Deal cards")
+        })
+        .disabled(game.isDealCardsDisabled)
     }
 }
 

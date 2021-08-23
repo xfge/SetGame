@@ -9,8 +9,7 @@ import SwiftUI
 
 struct CardView: View {
     var card: Card
-    var isSelected: Bool
-    var isMatched: Bool
+    var matchingStatus: SetGameViewModel.MatchingStatus = .none
     
     var body: some View {
         ZStack {
@@ -19,10 +18,10 @@ struct CardView: View {
                 let itemWidth = geometry.size.height / 3 * 0.6
                 VStack(spacing: itemWidth / 5) {
                     Spacer()
-                    ForEach(0..<numberOfShapes(for: card), id: \.self) { _ in
+                    ForEach(0..<numberOfShapes, id: \.self) { _ in
                         CardShape(shape: card.shape)
                             .shaded(by: card.shading)
-                            .foregroundColor(color(for: card))
+                            .foregroundColor(symbolColor)
                     }
                     .aspectRatio(2, contentMode: .fit)
                     .frame(width: geometry.size.width, height: itemWidth)
@@ -37,14 +36,34 @@ struct CardView: View {
     
     @ViewBuilder
     var cardBorder: some View {
-        let strokeWith: CGFloat = isSelected ? 4 : 1.5
-        let color: Color = isMatched ? .yellow : (isSelected ? .blue : .gray)
         RoundedRectangle(cornerRadius: 10)
-            .stroke(lineWidth: strokeWith)
-            .foregroundColor(color)
+            .stroke(lineWidth: borderWidth)
+            .foregroundColor(borderColor)
     }
     
-    func color(for card: Card) -> Color {
+    private var borderWidth: CGFloat {
+        switch matchingStatus {
+        case .selected:
+            return 4
+        default:
+            return 1.5
+        }
+    }
+    
+    private var borderColor: Color {
+        switch matchingStatus {
+        case .selected:
+            return .blue
+        case .matched:
+            return .yellow
+        case .mismatched:
+            return .red
+        default:
+            return .gray
+        }
+    }
+    
+    private var symbolColor: Color {
         switch card.color {
         case .option1:
             return .green
@@ -55,7 +74,7 @@ struct CardView: View {
         }
     }
     
-    func numberOfShapes(for card: Card) -> Int {
+    var numberOfShapes: Int {
         switch card.number {
         case .option1:
             return 1
@@ -69,9 +88,7 @@ struct CardView: View {
 
 struct CardView_Previews: PreviewProvider {
     static var previews: some View {
-        CardView(card: Card(shape: .option1, color: .option1, shading: .option1, number: .option3),
-                 isSelected: true,
-                 isMatched: true)
+        CardView(card: Card(shape: .option1, color: .option1, shading: .option1, number: .option3))
             .frame(width: 45, height: 65, alignment: .center)
     }
 }
