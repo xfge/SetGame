@@ -15,13 +15,15 @@ struct SetGame {
     
     private var depot: [Card] = []
     
+    var score = 0
+
     init(initialNumberOfCards: Int) {
         reset()
         dealCards(initialNumberOfCards)
     }
     
-    var hasNoOpenCards: Bool {
-        depot.isEmpty
+    var hasMoreOpenCards: Bool {
+        !depot.isEmpty
     }
     
     // check whether the 3 selected cards are matched or not
@@ -43,24 +45,37 @@ struct SetGame {
         mismatchedCards.removeAll()
         
         for _ in 0..<numCards {
-            let newCard = depot.remove(at: Int.random(in: 0..<depot.count))
-            if let hiddenCardIndex = activeCards.firstIndex(where: { card in
-                matchedCards.contains(where: { $0.id == card.id })
-            }) {
-                activeCards[hiddenCardIndex] = newCard
-            } else {
-                activeCards.append(newCard)
+            if hasMoreOpenCards {
+                activeCards.append(depot.remove(at: Int.random(in: 0..<depot.count)))
             }
         }
     }
     
     mutating func tap(card: Card) {
-        if selectedCards.count == 3 {
-            selectedCards.removeAll()
-        }
-        
         if mismatchedCards.count == 3 {
             mismatchedCards.removeAll()
+        }
+        
+        // If already 3 matched cards, deal 3 more cards to replace them.
+        if matchedCards.count == 3 {
+            let isTappingAMatchedCard = matchedCards.contains(where: { $0.id == card.id })
+            matchedCards.forEach { card in
+                if let cardIndex = activeCards.firstIndex(where: { $0.id == card.id }) {
+                    if hasMoreOpenCards {
+                        // R8: Replace those 3 matching Set cards with new ones.
+                        activeCards[cardIndex] = depot.remove(at: Int.random(in: 0..<depot.count))
+                    } else {
+                        // R8: If the deck is empty, the space of the matched cards will be released to the remaining cards.
+                        activeCards.remove(at: cardIndex)
+                    }
+                }
+            }
+            matchedCards.removeAll()
+
+            // R8: If the touched card was part of a matching Set, then select no card
+            if isTappingAMatchedCard {
+                return
+            }
         }
         
         if let selectedCardIndex = selectedCards.firstIndex(where: { $0.id == card.id }) {
@@ -71,9 +86,11 @@ struct SetGame {
                 if match(card1: selectedCards[0], card2: selectedCards[1], card3: selectedCards[2]) {
 //                if true {
                     selectedCards.forEach { matchedCards.append($0) }
+                    score += 3
                 } else {
                     selectedCards.forEach { mismatchedCards.append($0) }
                 }
+                selectedCards.removeAll()
             }
         }
     }

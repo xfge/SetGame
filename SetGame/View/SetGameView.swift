@@ -18,7 +18,6 @@ struct SetGameView: View {
                 let matchingStatus = game.matchingStatus(for: card)
                 CardView(card: card, matchingStatus: matchingStatus)
                     .padding(cardPadding)
-                    .opacity(matchingStatus == .hidden ? 0 : 1)
                     .onTapGesture {
                         game.tap(card: card)
                     }
@@ -41,12 +40,17 @@ struct SetGameView: View {
     }
     
     var bottomBar: some View {
-        Button(action: {
-            game.dealCards()
-        }, label: {
-            Text("Deal cards")
-        })
-        .disabled(game.isDealCardsDisabled)
+        HStack {
+            Text("\(game.score) cards matched")
+            Spacer()
+            Button(action: {
+                game.dealCards()
+            }, label: {
+                Text("Deal cards")
+            })
+            .disabled(!game.isDealCardsEnabled)
+        }
+
     }
 }
 
