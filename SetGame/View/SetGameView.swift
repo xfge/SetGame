@@ -12,15 +12,32 @@ struct SetGameView: View {
     
     var body: some View {
         VStack {
-            let cardPadding = CGFloat(40 / game.cards.count + 3)
+            HStack {
+                Text("Set")
+                Spacer()
+                Button(action: {
+                    game.restart()
+                }, label: {
+                    Text("Restart")
+                })
+            }
+
+            let cardPadding = CGFloat(40 / (game.cards.count + 1) + 3)
             AspectVGrid(items: game.cards, aspectRatio: 2/3) { card in
-                CardView(card: card, isSelected: game.isSelected(card: card))
+                CardView(card: card,
+                         isSelected: game.isSelected(card: card),
+                         isMatched: game.isMatched(card: card))
                     .padding(cardPadding)
                     .onTapGesture {
                         game.tap(card: card)
                     }
             }
-            Spacer(minLength: 0)
+            
+            Button(action: {
+                game.dealCards()
+            }, label: {
+                Text("Deal cards")
+            })
         }
         .padding(.horizontal)
     }

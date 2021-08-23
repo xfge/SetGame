@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct CardShape: Shape {
+    typealias Variant = Card.Variant
+    
     var shape: Variant
     
     func path(in rect: CGRect) -> Path {

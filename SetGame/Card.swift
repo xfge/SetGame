@@ -15,18 +15,7 @@ struct Card: Identifiable {
     
     let id = UUID()
     
-    var numberOfShapes: Int {
-        switch number {
-        case .option1:
-            return 1
-        case .option2:
-            return 2
-        case .option3:
-            return 3
-        }
+    enum Variant: CaseIterable {
+        case option1, option2, option3
     }
-}
-
-enum Variant: CaseIterable {
-    case option1, option2, option3
 }

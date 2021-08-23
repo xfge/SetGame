@@ -8,14 +8,10 @@
 import SwiftUI
 
 class SetGameViewModel: ObservableObject {
-    @Published private var model: SetGame = SetGame()
+    @Published private var model: SetGame
     
-    init() {
-        model.dealCards(12)
-    }
-    
-    init(initialNumberOfCards: Int) {
-        model.dealCards(initialNumberOfCards)
+    init(initialNumberOfCards: Int = 12) {
+        model = SetGame(initialNumberOfCards: initialNumberOfCards)
     }
     
     // All active/open cards
@@ -27,10 +23,24 @@ class SetGameViewModel: ObservableObject {
         model.selectedCards.contains(where: { $0.id == card.id })
     }
     
+    func isMatched(card: Card) -> Bool {
+        model.matchedCards.contains(where: { $0.id == card.id })
+    }
+    
     // MARK: - Intents
 
     func tap(card: Card) {
-        model.tap(card: card)
+        if !isMatched(card: card) {
+            model.tap(card: card)
+        }
     }
-
+    
+    func restart() {
+        model.reset()
+        model.dealCards(12)
+    }
+    
+    func dealCards() {
+        model.dealCards(3)
+    }
 }
