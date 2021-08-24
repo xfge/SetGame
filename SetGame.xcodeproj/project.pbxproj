@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AB344D9D26D542BA00708F75 /* Squiggle.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB344D9C26D542BA00708F75 /* Squiggle.swift */; };
+		AB344DA126D5458800708F75 /* StripView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB344DA026D5458800708F75 /* StripView.swift */; };
 		AB36D28F26D2321000D6589C /* SetGameApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB36D28E26D2321000D6589C /* SetGameApp.swift */; };
 		AB36D29126D2321000D6589C /* SetGameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB36D29026D2321000D6589C /* SetGameView.swift */; };
 		AB36D29326D2321500D6589C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AB36D29226D2321500D6589C /* Assets.xcassets */; };
@@ -21,6 +23,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		AB344D9C26D542BA00708F75 /* Squiggle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Squiggle.swift; sourceTree = "<group>"; };
+		AB344DA026D5458800708F75 /* StripView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StripView.swift; sourceTree = "<group>"; };
 		AB36D28B26D2321000D6589C /* SetGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SetGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB36D28E26D2321000D6589C /* SetGameApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetGameApp.swift; sourceTree = "<group>"; };
 		AB36D29026D2321000D6589C /* SetGameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetGameView.swift; sourceTree = "<group>"; };
@@ -47,6 +51,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		AB344D9B26D52E0D00708F75 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				AB36D29D26D233B800D6589C /* SetGame.swift */,
+				ABEE390D26D2439A0035BEB8 /* Card.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		AB36D28226D2321000D6589C = {
 			isa = PBXGroup;
 			children = (
@@ -66,11 +79,10 @@
 		AB36D28D26D2321000D6589C /* SetGame */ = {
 			isa = PBXGroup;
 			children = (
+				AB344D9B26D52E0D00708F75 /* Model */,
 				ABEE391726D27B280035BEB8 /* View */,
 				AB36D28E26D2321000D6589C /* SetGameApp.swift */,
 				AB36D29F26D2364200D6589C /* SetGameViewModel.swift */,
-				AB36D29D26D233B800D6589C /* SetGame.swift */,
-				ABEE390D26D2439A0035BEB8 /* Card.swift */,
 				AB36D29226D2321500D6589C /* Assets.xcassets */,
 				AB36D29726D2321500D6589C /* Info.plist */,
 				AB36D29426D2321500D6589C /* Preview Content */,
@@ -94,6 +106,8 @@
 				ABEE391326D2577B0035BEB8 /* CardShape.swift */,
 				ABEE391526D27A150035BEB8 /* Diamond.swift */,
 				ABEE390F26D249D80035BEB8 /* AspectVGrid.swift */,
+				AB344D9C26D542BA00708F75 /* Squiggle.swift */,
+				AB344DA026D5458800708F75 /* StripView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -167,6 +181,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AB344D9D26D542BA00708F75 /* Squiggle.swift in Sources */,
 				ABEE391226D24D490035BEB8 /* CardView.swift in Sources */,
 				AB36D29126D2321000D6589C /* SetGameView.swift in Sources */,
 				ABEE390E26D2439A0035BEB8 /* Card.swift in Sources */,
@@ -175,6 +190,7 @@
 				ABEE391426D2577B0035BEB8 /* CardShape.swift in Sources */,
 				ABEE391626D27A150035BEB8 /* Diamond.swift in Sources */,
 				AB36D28F26D2321000D6589C /* SetGameApp.swift in Sources */,
+				AB344DA126D5458800708F75 /* StripView.swift in Sources */,
 				AB36D2A026D2364200D6589C /* SetGameViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

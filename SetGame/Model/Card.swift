@@ -8,10 +8,10 @@
 import Foundation
 
 struct Card: Identifiable {
-    let shape: Variant
-    let color: Variant
-    let shading: Variant
-    let number: Variant
+    let variant1: Variant
+    let variant2: Variant
+    let variant3: Variant
+    let variant4: Variant
     
     let id = UUID()
     

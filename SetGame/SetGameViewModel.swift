@@ -58,3 +58,58 @@ class SetGameViewModel: ObservableObject {
         case none, selected, matched, mismatched
     }
 }
+
+extension Card {
+    var color: Color {
+        switch self.variant1 {
+        case .option1:
+            return .green
+        case .option2:
+            return .purple
+        case .option3:
+            return .red
+        }
+    }
+    
+    enum Shape {
+        case diamond, squiggle, oval
+    }
+    
+    var shape: Shape {
+        switch self.variant2 {
+        case .option1:
+            return .diamond
+        case .option2:
+            return .squiggle
+        case .option3:
+            return .oval
+        }
+    }
+    
+    
+    enum Shading {
+        case filled, shaded, stroked
+    }
+    
+    var shading: Shading {
+        switch self.variant3 {
+        case .option1:
+            return .filled
+        case .option2:
+            return .shaded
+        case .option3:
+            return .stroked
+        }
+    }
+
+    var symbolCount: Int {
+        switch self.variant4 {
+        case .option1:
+            return 1
+        case .option2:
+            return 2
+        case .option3:
+            return 3
+        }
+    }
+}

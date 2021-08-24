@@ -8,32 +8,28 @@
 import SwiftUI
 
 struct CardShape: Shape {
-    typealias Variant = Card.Variant
-    
-    var shape: Variant
+    var shape: Card.Shape
     
     func path(in rect: CGRect) -> Path {
         switch shape {
-        case .option1:
+        case .diamond:
             return Diamond().path(in: rect)
-        case .option2:
+        case .squiggle:
+            return Squiggle().path(in: rect)
+        case .oval:
             return Capsule().path(in: rect)
-        case .option3:
-            return Rectangle().path(in: rect)
         }
     }
-}
-
-extension CardShape {
+    
     @ViewBuilder
-    func shaded(by shading: Variant) -> some View {
+    func shaded(by shading: Card.Shading, with color: Color) -> some View {
         switch shading {
-        case .option1:
-            self
-        case .option2:
-            self.stroke(lineWidth: 2.0)
-        case .option3:
-            self.opacity(0.5)
+        case .filled:
+            self.foregroundColor(color)
+        case .stroked:
+            self.stroke(color, lineWidth: 2.0)
+        case .shaded:
+            StripView(shape: self, color: color)
         }
     }
 }

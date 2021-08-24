@@ -32,18 +32,15 @@ struct SetGame {
             return (v1 == v2 && v2 == v3) || (v1 != v2 && v1 != v3 && v2 != v3)
         }
         
-        return eval(card1.shape, card2.shape, card3.shape) &&
-            eval(card1.shading, card2.shading, card3.shading) &&
-            eval(card1.color, card2.color, card3.color) &&
-            eval(card1.number, card2.number, card3.number)
+        return eval(card1.variant1, card2.variant1, card3.variant1) &&
+            eval(card1.variant2, card2.variant2, card3.variant2) &&
+            eval(card1.variant3, card2.variant3, card3.variant3) &&
+            eval(card1.variant4, card2.variant4, card3.variant4)
     }
     
     // MARK: - Intents
     
-    mutating func dealCards(_ numCards: Int) {
-        selectedCards.removeAll()
-        mismatchedCards.removeAll()
-        
+    mutating func dealCards(_ numCards: Int) {        
         for _ in 0..<numCards {
             if hasMoreOpenCards {
                 activeCards.append(depot.remove(at: Int.random(in: 0..<depot.count)))
@@ -97,11 +94,11 @@ struct SetGame {
     
     mutating func reset() {
         depot = []
-        for shape in Card.Variant.allCases {
-            for color in Card.Variant.allCases {
-                for shading in Card.Variant.allCases {
-                    for number in Card.Variant.allCases {
-                        depot.append(Card(shape: shape, color: color, shading: shading, number: number))
+        for variant1 in Card.Variant.allCases {
+            for variant2 in Card.Variant.allCases {
+                for variant3 in Card.Variant.allCases {
+                    for variant4 in Card.Variant.allCases {
+                        depot.append(Card(variant1: variant1, variant2: variant2, variant3: variant3, variant4: variant4))
                     }
                 }
             }
