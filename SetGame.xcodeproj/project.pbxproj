@@ -105,9 +105,9 @@
 				ABEE391126D24D490035BEB8 /* CardView.swift */,
 				ABEE391326D2577B0035BEB8 /* CardShape.swift */,
 				ABEE391526D27A150035BEB8 /* Diamond.swift */,
-				ABEE390F26D249D80035BEB8 /* AspectVGrid.swift */,
 				AB344D9C26D542BA00708F75 /* Squiggle.swift */,
 				AB344DA026D5458800708F75 /* StripView.swift */,
+				ABEE390F26D249D80035BEB8 /* AspectVGrid.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";

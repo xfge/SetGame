@@ -42,6 +42,10 @@ class SetGameViewModel: ObservableObject {
         model.dealCards(3)
     }
     
+    func cheat() {
+        model.cheat()
+    }
+    
     enum MatchingStatus {
         case none, selected, matched, mismatched
     }

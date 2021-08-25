@@ -8,13 +8,28 @@
 import Foundation
 
 struct SetGame {
-    var activeCards: [Card] = []
-    var selectedCards: [Card] = []
-    var matchedCards: [Card] = []
-    var mismatchedCards: [Card] = []
+    private(set) var activeCards: [Card] = []
+    private(set) var matchedCards: [Card] = []
+    private(set) var mismatchedCards: [Card] = []
+    
+    private(set) var selectedCards: [Card] = [] {
+        didSet {
+            if selectedCards.count == 3 {
+                if match(card1: selectedCards[0], card2: selectedCards[1], card3: selectedCards[2]) {
+                    matchedCards = selectedCards
+                    score += 3
+                } else {
+                    mismatchedCards = selectedCards
+                    score -= 1
+                }
+                selectedCards = []
+            }
+        }
+    }
     
     private var depot: [Card] = []
     
+    // Extra credit 3: Keep score somehow in your Set game.
     var score = 0
 
     init(initialNumberOfCards: Int) {
@@ -26,21 +41,14 @@ struct SetGame {
         !depot.isEmpty
     }
     
-    // check whether the 3 selected cards are matched or not
-    private func match(card1: Card, card2: Card, card3: Card) -> Bool {
-        func eval(_ v1: Card.Variant, _ v2: Card.Variant, _ v3: Card.Variant) -> Bool {
-            return (v1 == v2 && v2 == v3) || (v1 != v2 && v1 != v3 && v2 != v3)
-        }
-        
-        return eval(card1.variant1, card2.variant1, card3.variant1) &&
-            eval(card1.variant2, card2.variant2, card3.variant2) &&
-            eval(card1.variant3, card2.variant3, card3.variant3) &&
-            eval(card1.variant4, card2.variant4, card3.variant4)
-    }
-    
     // MARK: - Intents
     
-    mutating func dealCards(_ numCards: Int) {        
+    mutating func dealCards(_ numCards: Int) {
+        // Extra credit 5: penalize players who chose Deal 3 More Cards when a Set was actually available to be chosen
+        if firstThreeMatchingCard != nil {
+            score -= 1
+        }
+        
         for _ in 0..<numCards {
             if hasMoreOpenCards {
                 activeCards.append(depot.remove(at: Int.random(in: 0..<depot.count)))
@@ -50,12 +58,11 @@ struct SetGame {
     
     mutating func tap(card: Card) {
         if mismatchedCards.count == 3 {
-            mismatchedCards.removeAll()
+            mismatchedCards = []
         }
         
         // If already 3 matched cards, deal 3 more cards to replace them.
         if matchedCards.count == 3 {
-            let isTappingAMatchedCard = matchedCards.contains(where: { $0.id == card.id })
             matchedCards.forEach { card in
                 if let cardIndex = activeCards.firstIndex(where: { $0.id == card.id }) {
                     if hasMoreOpenCards {
@@ -67,11 +74,12 @@ struct SetGame {
                     }
                 }
             }
-            matchedCards.removeAll()
-
             // R8: If the touched card was part of a matching Set, then select no card
-            if isTappingAMatchedCard {
+            if matchedCards.contains(where: { $0.id == card.id }) {
+                matchedCards = []
                 return
+            } else {
+                matchedCards = []
             }
         }
         
@@ -79,16 +87,6 @@ struct SetGame {
             selectedCards.remove(at: selectedCardIndex)
         } else {
             selectedCards.append(card)
-            if selectedCards.count == 3 {
-                if match(card1: selectedCards[0], card2: selectedCards[1], card3: selectedCards[2]) {
-//                if true {
-                    selectedCards.forEach { matchedCards.append($0) }
-                    score += 3
-                } else {
-                    selectedCards.forEach { mismatchedCards.append($0) }
-                }
-                selectedCards.removeAll()
-            }
         }
     }
     
@@ -109,6 +107,43 @@ struct SetGame {
         selectedCards = []
         matchedCards = []
         mismatchedCards = []
+    }
+    
+    // Extra credit 6: Add a “cheat” button to your UI.
+    mutating func cheat() {
+        selectedCards = []
+        mismatchedCards = []
+        if let (card1, card2, card3) = firstThreeMatchingCard {
+            matchedCards = [card1, card2, card3]
+        }
+    }
+    
+    // MARK: - Private methods
+    
+    // check whether the 3 selected cards are matched or not
+    private func match(card1: Card, card2: Card, card3: Card) -> Bool {
+        func eval(_ v1: Card.Variant, _ v2: Card.Variant, _ v3: Card.Variant) -> Bool {
+            return (v1 == v2 && v2 == v3) || (v1 != v2 && v1 != v3 && v2 != v3)
+        }
+        
+        return eval(card1.variant1, card2.variant1, card3.variant1) &&
+            eval(card1.variant2, card2.variant2, card3.variant2) &&
+            eval(card1.variant3, card2.variant3, card3.variant3) &&
+            eval(card1.variant4, card2.variant4, card3.variant4)
+    }
+    
+    private var firstThreeMatchingCard: (Card, Card, Card)? {
+        for card1 in activeCards {
+            for card2 in activeCards {
+                for card3 in activeCards {
+                    if card1.id != card2.id && card1.id != card3.id && card2.id != card3.id &&
+                        match(card1: card1, card2: card2, card3: card3) {
+                        return (card1, card2, card3)
+                    }
+                }
+            }
+        }
+        return nil
     }
 }
 

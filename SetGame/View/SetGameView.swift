@@ -23,6 +23,7 @@ struct SetGameView: View {
                         game.tap(card: card)
                     }
             }
+            Text("\(game.score)")
             bottomBar
         }
         .padding(.horizontal)
@@ -42,7 +43,11 @@ struct SetGameView: View {
     
     var bottomBar: some View {
         HStack {
-            Text("\(game.score) cards matched")
+            Button(action: {
+                game.cheat()
+            }, label: {
+                Text("Cheat")
+            })
             Spacer()
             Button(action: {
                 game.dealCards()

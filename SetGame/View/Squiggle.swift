@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+// Extra credit 1: Draw the actual squiggle instead of using a rectangle.
 struct Squiggle: Shape {
   func path(in rect: CGRect) -> Path {
     let w = rect.width

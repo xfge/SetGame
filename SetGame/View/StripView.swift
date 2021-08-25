@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+// Extra credit 2: Draw the actual striped “shading” instead of using a semi-transparent color.
 struct StripView<ContentShape: Shape>: View {
     var shape: ContentShape
     var color: Color
