@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+// Using this shape struct for simplicity instead of the strokedSymbol, filledSymbol and shadedSymbol vars/funcs recommended by the materials.
 struct CardShape: Shape {
     var shape: Card.Shape
     

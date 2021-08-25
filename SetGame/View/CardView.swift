@@ -9,7 +9,8 @@ import SwiftUI
 
 struct CardView: View {
     var card: Card
-    var matchingStatus: SetGameViewModel.MatchingStatus = .none
+    var borderColor: Color
+    var borderWidth: CGFloat
     
     var body: some View {
         ZStack {
@@ -19,9 +20,7 @@ struct CardView: View {
                 VStack(spacing: itemWidth / 5) {
                     Spacer()
                     ForEach(0..<card.symbolCount, id: \.self) { _ in
-                        CardShape(shape: card.shape)
-                            .shaded(by: card.shading, with: card.color)
-                            .foregroundColor(card.color)
+                        cardShape
                     }
                     .aspectRatio(2, contentMode: .fit)
                     .frame(width: geometry.size.width, height: itemWidth)
@@ -31,39 +30,26 @@ struct CardView: View {
         }
     }
     
-    @ViewBuilder
     var cardBorder: some View {
         RoundedRectangle(cornerRadius: 10)
             .stroke(lineWidth: borderWidth)
             .foregroundColor(borderColor)
     }
     
-    private var borderWidth: CGFloat {
-        switch matchingStatus {
-        case .selected:
-            return 4
-        default:
-            return 1.5
-        }
-    }
-    
-    private var borderColor: Color {
-        switch matchingStatus {
-        case .selected:
-            return .blue
-        case .matched:
-            return .yellow
-        case .mismatched:
-            return .red
-        default:
-            return .gray
-        }
+    var cardShape: some View {
+        CardShape(shape: card.shape)
+            .shaded(by: card.shading, with: card.color)
+            .foregroundColor(card.color)
     }
 }
 
 struct CardView_Previews: PreviewProvider {
     static var previews: some View {
-        CardView(card: Card(variant1: .option1, variant2: .option1, variant3: .option1, variant4: .option3))
-            .frame(width: 45, height: 65, alignment: .center)
+        CardView(
+            card: Card(variant1: .option1, variant2: .option1, variant3: .option1, variant4: .option3),
+            borderColor: .gray,
+            borderWidth: 1.5
+        )
+            .frame(width: 100, height: 150, alignment: .center)
     }
 }

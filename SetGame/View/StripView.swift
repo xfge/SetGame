@@ -15,10 +15,10 @@ struct StripView<ContentShape: Shape>: View {
         GeometryReader(content: { geometry in
             let numberOfStrips = Int(geometry.size.width / 6.5 + 1)
             HStack(spacing: 0) {
-                Color(white: 0)
+                transparentColor
                 ForEach(0..<numberOfStrips, id: \.self) { number in
                     color.frame(width: stripWidth)
-                    Color(white: 0)
+                    transparentColor
                 }
             }
         })
@@ -29,6 +29,7 @@ struct StripView<ContentShape: Shape>: View {
     
     let stripWidth: CGFloat = 1
     let borderWidth: CGFloat = 2
+    let transparentColor: Color = .white.opacity(0)
 }
 
 struct StripView_Previews: PreviewProvider {

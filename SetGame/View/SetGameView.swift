@@ -15,8 +15,9 @@ struct SetGameView: View {
             headerBar
             let cardPadding = CGFloat(40 / (game.cards.count + 1) + 3)
             AspectVGrid(items: game.cards, aspectRatio: 2/3) { card in
-                let matchingStatus = game.matchingStatus(for: card)
-                CardView(card: card, matchingStatus: matchingStatus)
+                CardView(card: card,
+                         borderColor: game.borderColor(for: card),
+                         borderWidth: game.borderWidth(for: card))
                     .padding(cardPadding)
                     .onTapGesture {
                         game.tap(card: card)
@@ -50,7 +51,6 @@ struct SetGameView: View {
             })
             .disabled(!game.isDealCardsEnabled)
         }
-
     }
 }
 

@@ -27,18 +27,6 @@ class SetGameViewModel: ObservableObject {
         model.hasMoreOpenCards
     }
     
-    func matchingStatus(for card: Card) -> MatchingStatus {
-        if model.matchedCards.contains(where: { $0.id == card.id }) {
-            return .matched
-        } else if model.mismatchedCards.contains(where: { $0.id == card.id }) {
-            return .mismatched
-        } else if model.selectedCards.contains(where: { $0.id == card.id }) {
-            return .selected
-        } else {
-            return .none
-        }
-    }
-    
     // MARK: - Intents
 
     func tap(card: Card) {
@@ -57,8 +45,47 @@ class SetGameViewModel: ObservableObject {
     enum MatchingStatus {
         case none, selected, matched, mismatched
     }
+    
+    // MARK: - UI property utils
+    
+    func borderWidth(for card: Card) -> CGFloat {
+        switch matchingStatus(for: card) {
+        case .selected:
+            return 4
+        default:
+            return 1.5
+        }
+    }
+    
+    func borderColor(for card: Card) -> Color {
+        switch matchingStatus(for: card) {
+        case .selected:
+            return .blue
+        case .matched:
+            return .yellow
+        case .mismatched:
+            return .red
+        default:
+            return .gray
+        }
+    }
+    
+    // MARK: - Private methods
+    
+    private func matchingStatus(for card: Card) -> MatchingStatus {
+        if model.matchedCards.contains(where: { $0.id == card.id }) {
+            return .matched
+        } else if model.mismatchedCards.contains(where: { $0.id == card.id }) {
+            return .mismatched
+        } else if model.selectedCards.contains(where: { $0.id == card.id }) {
+            return .selected
+        } else {
+            return .none
+        }
+    }
 }
 
+// In any complexity trade-off between View and ViewModel, make your View simpler. The extra UI property/state is calculated here in ViewModel.
 extension Card {
     var color: Color {
         switch self.variant1 {
