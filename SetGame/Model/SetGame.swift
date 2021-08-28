@@ -33,7 +33,7 @@ struct SetGame {
     }
     
     private var lastMatchedAt = Date()
-    private var depot: [Card] = []
+    private var deck: [Card] = []
     
     // Extra credit 3: Keep score somehow in your Set game.
     var scores: [Int] = [0, 0]
@@ -51,7 +51,7 @@ struct SetGame {
     }
     
     var hasMoreOpenCards: Bool {
-        !depot.isEmpty
+        !deck.isEmpty
     }
     
     // MARK: - Intents
@@ -69,7 +69,7 @@ struct SetGame {
         
         for _ in 0..<numCards {
             if hasMoreOpenCards {
-                activeCards.append(depot.remove(at: Int.random(in: 0..<depot.count)))
+                activeCards.append(deck.remove(at: Int.random(in: 0..<deck.count)))
             }
         }
     }
@@ -85,7 +85,7 @@ struct SetGame {
                 if let cardIndex = activeCards.firstIndex(where: { $0.id == card.id }) {
                     if hasMoreOpenCards {
                         // R8: Replace those 3 matching Set cards with new ones.
-                        activeCards[cardIndex] = depot.remove(at: Int.random(in: 0..<depot.count))
+                        activeCards[cardIndex] = deck.remove(at: Int.random(in: 0..<deck.count))
                     } else {
                         // R8: If the deck is empty, the space of the matched cards will be released to the remaining cards.
                         activeCards.remove(at: cardIndex)
@@ -109,17 +109,17 @@ struct SetGame {
     }
     
     mutating func reset() {
-        depot = []
+        deck = []
         for variant1 in Card.Variant.allCases {
             for variant2 in Card.Variant.allCases {
                 for variant3 in Card.Variant.allCases {
                     for variant4 in Card.Variant.allCases {
-                        depot.append(Card(variant1: variant1, variant2: variant2, variant3: variant3, variant4: variant4))
+                        deck.append(Card(variant1: variant1, variant2: variant2, variant3: variant3, variant4: variant4))
                     }
                 }
             }
         }
-        depot.shuffle()
+        deck.shuffle()
         
         activeCards = []
         selectedCards = []
