@@ -19,8 +19,8 @@ class SetGameViewModel: ObservableObject {
         model.activeCards
     }
     
-    var score: Int {
-        model.score
+    func score(for player: Int) -> Int {
+        model.scores[player]
     }
     
     var isDealCardsEnabled: Bool {
@@ -30,7 +30,9 @@ class SetGameViewModel: ObservableObject {
     // MARK: - Intents
 
     func tap(card: Card) {
-        model.tap(card: card)
+        if model.activePlayer != nil {
+            model.tap(card: card)
+        }
     }
     
     func restart() {
@@ -46,16 +48,37 @@ class SetGameViewModel: ObservableObject {
         model.cheat()
     }
     
+    func claim(by player: Int?) {
+        model.claim(by: player)
+        Timer.scheduledTimer(withTimeInterval: 5, repeats: false) { [unowned self] _ in
+            model.claim(by: nil)
+        }
+    }
+    
+    enum PlayerStatus {
+        case none, blocked, exclusive
+    }
+    
     enum MatchingStatus {
         case none, selected, matched, mismatched
     }
     
     // MARK: - UI property utils
     
+    func status(of player: Int) -> PlayerStatus {
+        if let activePlayer = model.activePlayer {
+            return player == activePlayer ? .exclusive : .blocked
+        } else {
+            return .none
+        }
+    }
+    
     func borderWidth(for card: Card) -> CGFloat {
         switch matchingStatus(for: card) {
         case .selected:
             return 4
+        case .matched, .mismatched:
+            return 2.5
         default:
             return 1.5
         }
@@ -66,7 +89,7 @@ class SetGameViewModel: ObservableObject {
         case .selected:
             return .blue
         case .matched:
-            return .yellow
+            return .green
         case .mismatched:
             return .red
         default:

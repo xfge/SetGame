@@ -17,20 +17,33 @@ struct SetGame {
             if selectedCards.count == 3 {
                 if match(card1: selectedCards[0], card2: selectedCards[1], card3: selectedCards[2]) {
                     matchedCards = selectedCards
-                    score += 3
+                    // Extra credit 4: Give higher scores to players who choose matching Sets faster
+                    if let player = activePlayer {
+                        scores[player] += max(15 - Int(Date().timeIntervalSince(lastMatchedAt) / 2), 1)
+                    }
                 } else {
                     mismatchedCards = selectedCards
-                    score -= 1
+                    if let player = activePlayer {
+                        scores[player] -= 1
+                    }
                 }
                 selectedCards = []
             }
         }
     }
     
+    private var lastMatchedAt = Date()
     private var depot: [Card] = []
     
     // Extra credit 3: Keep score somehow in your Set game.
-    var score = 0
+    var scores: [Int] = [0, 0]
+    var activePlayer: Int? {
+        didSet {
+            if activePlayer == nil {
+                selectedCards = []
+            }
+        }
+    }
 
     init(initialNumberOfCards: Int) {
         reset()
@@ -43,10 +56,15 @@ struct SetGame {
     
     // MARK: - Intents
     
+    mutating func claim(by player: Int?) {
+        activePlayer = player
+    }
+    
     mutating func dealCards(_ numCards: Int) {
         // Extra credit 5: penalize players who chose Deal 3 More Cards when a Set was actually available to be chosen
         if firstThreeMatchingCard != nil {
-            score -= 1
+            // With two players introduced, we regard "deal cards" a shared action between players without penalty.
+            // score -= 1
         }
         
         for _ in 0..<numCards {
@@ -107,6 +125,7 @@ struct SetGame {
         selectedCards = []
         matchedCards = []
         mismatchedCards = []
+        scores = [0, 0]
     }
     
     // Extra credit 6: Add a “cheat” button to your UI.
