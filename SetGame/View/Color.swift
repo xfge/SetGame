@@ -9,7 +9,7 @@ import SwiftUI
 
 extension Color {
     
-    static let playerColor0 = Color("PlayerColor0")
+    static let playerColor0 = Color.accentColor
     
     static let playerColor1 = Color("PlayerColor1")
 }

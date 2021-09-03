@@ -45,8 +45,6 @@ struct SetGameView: View {
                 }, label: {
                     Text("Restart")
                 })
-                .foregroundColor(game.isDealCardsEnabled ? .playerColor0 : .secondary)
-                .disabled(!game.isDealCardsEnabled)
                 Spacer()
             }
             foundButton(for: 0)

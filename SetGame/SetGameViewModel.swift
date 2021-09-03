@@ -30,9 +30,7 @@ class SetGameViewModel: ObservableObject {
     // MARK: - Intents
 
     func tap(card: Card) {
-        if model.activePlayer != nil {
-            model.tap(card: card)
-        }
+        model.tap(card: card)
     }
     
     func restart() {

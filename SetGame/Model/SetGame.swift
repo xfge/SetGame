@@ -20,6 +20,7 @@ struct SetGame {
                     // Extra credit 4: Give higher scores to players who choose matching Sets faster
                     if let player = activePlayer {
                         scores[player] += max(15 - Int(Date().timeIntervalSince(lastMatchedAt) / 2), 1)
+                        lastMatchedAt = Date()
                     }
                 } else {
                     mismatchedCards = selectedCards
@@ -28,6 +29,7 @@ struct SetGame {
                     }
                 }
                 selectedCards = []
+                activePlayer = nil
             }
         }
     }
@@ -101,10 +103,12 @@ struct SetGame {
             }
         }
         
-        if let selectedCardIndex = selectedCards.firstIndex(where: { $0.id == card.id }) {
-            selectedCards.remove(at: selectedCardIndex)
-        } else {
-            selectedCards.append(card)
+        if activePlayer != nil {
+            if let selectedCardIndex = selectedCards.firstIndex(where: { $0.id == card.id }) {
+                selectedCards.remove(at: selectedCardIndex)
+            } else {
+                selectedCards.append(card)
+            }
         }
     }
     
