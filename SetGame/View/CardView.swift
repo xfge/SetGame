@@ -15,6 +15,8 @@ struct CardView: View {
     var body: some View {
         ZStack {
             cardBorder
+                .animation(.none, value: borderWidth)
+                .animation(.none, value: borderColor)
             GeometryReader { geometry in
                 let itemWidth = geometry.size.height / 3 * 0.6
                 VStack(spacing: itemWidth / 5) {

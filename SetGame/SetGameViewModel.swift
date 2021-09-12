@@ -18,8 +18,12 @@ class SetGameViewModel: ObservableObject {
         model.allCards
     }
     
-    var cards: [Card] {
-        model.activeCards
+    var openCards: [Card] {
+        model.openCards
+    }
+    
+    var discardedCards: [Card] {
+        model.discardedCards
     }
     
     func score(for player: Int) -> Int {

@@ -26,10 +26,14 @@ struct SetGameView: View {
         !dealt.contains(card.id)
     }
     
+    private func zIndex(of card: Card) -> Double {
+        -Double(game.allCards.firstIndex(where: { $0.id == card.id }) ?? 0)
+    }
+    
     var body: some View {
         VStack {
             headerBar
-            AspectVGrid(items: game.cards, aspectRatio: CardConstants.aspectRatio) { card in
+            AspectVGrid(items: game.openCards, aspectRatio: CardConstants.aspectRatio) { card in
                 if isUndealt(card) {
                     Color.clear
                 } else {
@@ -37,9 +41,11 @@ struct SetGameView: View {
                              borderColor: game.borderColor(for: card),
                              borderWidth: game.borderWidth(for: card))
                         .matchedGeometryEffect(id: card.id, in: dealingNamespace)
-                        .padding(CGFloat(40 / (game.cards.count + 1) + 3))
+                        .padding(CGFloat(40 / (game.openCards.count + 1) + 3))
                         .onTapGesture {
-                            game.tap(card: card)
+                            withAnimation {
+                                game.tap(card: card)
+                            }
                         }
                 }
             }
@@ -54,10 +60,7 @@ struct SetGameView: View {
             deckCards
                 .frame(width: CardConstants.undealtWidth, height: CardConstants.undealtHeight)
             Spacer()
-            Rectangle()
-                .cornerRadius(10)
-                .foregroundColor(.clear)
-                .aspectRatio(2/3, contentMode: .fit)
+            discardedCards
                 .frame(width: CardConstants.undealtWidth, height: CardConstants.undealtHeight)
         }
         .padding(.horizontal, 4)
@@ -71,12 +74,15 @@ struct SetGameView: View {
                     .cornerRadius(10)
                     .aspectRatio(CardConstants.aspectRatio, contentMode: .fit)
                     .foregroundColor(.gray)
+                    .zIndex(zIndex(of: card))
                     .onTapGesture {
                         if game.isDealCardsEnabled {
-                            let dealtCards = game.dealCards(game.cards.count == 0 ? 12 : 3)
-                            for (index, card) in dealtCards.enumerated() {
-                                withAnimation(dealAnimation(forIndex: index, inTotalOf: dealtCards.count)) {
-                                    deal(card)
+                            withAnimation {
+                                let dealtCards = game.dealCards(game.openCards.count == 0 ? 12 : 3)
+                                for (index, card) in dealtCards.enumerated() {
+                                    withAnimation(dealAnimation(forIndex: index, inTotalOf: dealtCards.count)) {
+                                        deal(card)
+                                    }
                                 }
                             }
                         }
@@ -85,14 +91,19 @@ struct SetGameView: View {
         }
     }
     
-//    var discardedCards: some View {
-//        ZStack {
-//            ForEach(game.allCards) { card in
-//                CardView(card: card, borderColor: .gray, borderWidth: 1)
-//                    .matchedGeometryEffect(id: card.id, in: dealingNamespace)
-//            }
-//        }
-//    }
+    var discardedCards: some View {
+        ZStack {
+            ForEach(game.discardedCards) { card in
+                if let index = game.discardedCards.firstIndex(where: { $0.id == card.id }), index == game.discardedCards.count - 1 {
+                    CardView(card: card, borderColor: .gray, borderWidth: 1.5)
+                        .matchedGeometryEffect(id: card.id, in: dealingNamespace)
+                } else {
+                    Color.clear
+                        .matchedGeometryEffect(id: card.id, in: dealingNamespace)
+                }
+            }
+        }
+    }
     
     var scoreBar: some View {
         HStack {

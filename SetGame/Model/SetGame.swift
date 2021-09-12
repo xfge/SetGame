@@ -10,8 +10,9 @@ import Foundation
 struct SetGame {
     private(set) var allCards: [Card] = []
     private(set) var deck: [Card] = []
+    private(set) var discardedCards: [Card] = []
     
-    private(set) var activeCards: [Card] = []
+    private(set) var openCards: [Card] = []
     private(set) var matchedCards: [Card] = []
     private(set) var mismatchedCards: [Card] = []
     
@@ -71,14 +72,18 @@ struct SetGame {
             // With two players introduced, we regard "deal cards" a shared action between players without penalty.
             // score -= 1
         }
-                
+        
+        if matchedCards.count == 3 {
+            clearMatchedCards()
+        }
+        
         var dealtCards: [Card] = []
         for _ in 0..<numCards {
             if hasMoreOpenCards {
-                dealtCards.append(deck.remove(at: Int.random(in: 0..<deck.count)))
+                dealtCards.append(deck.remove(at: 0))
             }
         }
-        activeCards.append(contentsOf: dealtCards)
+        openCards.append(contentsOf: dealtCards)
         
         return dealtCards
     }
@@ -88,14 +93,9 @@ struct SetGame {
             mismatchedCards = []
         }
         
-        // If already 3 matched cards, deal 3 more cards to replace them.
         if matchedCards.count == 3 {
-            matchedCards.forEach { card in
-                if let cardIndex = activeCards.firstIndex(where: { $0.id == card.id }) {
-                    // As a new rule in assignment 4, all matched cards are simply removed.
-                    activeCards.remove(at: cardIndex)
-                }
-            }
+            clearMatchedCards()
+
             // R8: If the touched card was part of a matching Set, then select no card
             if matchedCards.contains(where: { $0.id == card.id }) {
                 matchedCards = []
@@ -131,7 +131,7 @@ struct SetGame {
         allCards.shuffle()
         deck = allCards
         
-        activeCards = []
+        openCards = []
         selectedCards = []
         matchedCards = []
         mismatchedCards = []
@@ -149,6 +149,15 @@ struct SetGame {
     
     // MARK: - Private methods
     
+    private mutating func clearMatchedCards() {
+        matchedCards.forEach { card in
+            if let cardIndex = openCards.firstIndex(where: { $0.id == card.id }) {
+                // As a new rule in assignment 4, all matched cards are simply removed.
+                discardedCards.append(openCards.remove(at: cardIndex))
+            }
+        }
+    }
+    
     // check whether the 3 selected cards are matched or not
     private func match(card1: Card, card2: Card, card3: Card) -> Bool {
         func eval(_ v1: Card.Variant, _ v2: Card.Variant, _ v3: Card.Variant) -> Bool {
@@ -162,9 +171,9 @@ struct SetGame {
     }
     
     private var firstThreeMatchingCard: (Card, Card, Card)? {
-        for card1 in activeCards {
-            for card2 in activeCards {
-                for card3 in activeCards {
+        for card1 in openCards {
+            for card2 in openCards {
+                for card3 in openCards {
                     if card1.id != card2.id && card1.id != card3.id && card2.id != card3.id &&
                         match(card1: card1, card2: card2, card3: card3) {
                         return (card1, card2, card3)
