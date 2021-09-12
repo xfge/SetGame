@@ -132,6 +132,7 @@ struct SetGame {
         deck = allCards
         
         openCards = []
+        discardedCards = []
         selectedCards = []
         matchedCards = []
         mismatchedCards = []

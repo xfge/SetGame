@@ -10,6 +10,8 @@ import SwiftUI
 class SetGameViewModel: ObservableObject {
     @Published private var model: SetGame
     
+    private var discardedRotation: [Int: Double] = [:]
+    
     init() {
         model = SetGame(initialNumberOfCards: 0)
     }
@@ -96,6 +98,16 @@ class SetGameViewModel: ObservableObject {
         default:
             return .gray
         }
+    }
+    
+    func rotation(for card: Card) -> Double? {
+        if discardedCards.contains(where: { $0.id == card.id }) {
+            if discardedRotation[card.id] == nil {
+                discardedRotation[card.id] = Double(Int.random(in: -10...10))
+            }
+            return discardedRotation[card.id]
+        }
+        return nil
     }
     
     // MARK: - Private methods

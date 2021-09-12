@@ -87,6 +87,12 @@ struct SetGameView: View {
                             }
                         }
                     }
+                    .onLongPressGesture {
+                        withAnimation {
+                            dealt = []
+                            game.restart()
+                        }
+                    }
             }
         }
     }
@@ -94,13 +100,9 @@ struct SetGameView: View {
     var discardedCards: some View {
         ZStack {
             ForEach(game.discardedCards) { card in
-                if let index = game.discardedCards.firstIndex(where: { $0.id == card.id }), index == game.discardedCards.count - 1 {
-                    CardView(card: card, borderColor: .gray, borderWidth: 1.5)
-                        .matchedGeometryEffect(id: card.id, in: dealingNamespace)
-                } else {
-                    Color.clear
-                        .matchedGeometryEffect(id: card.id, in: dealingNamespace)
-                }
+                CardView(card: card, borderColor: .gray, borderWidth: 1.5)
+                    .rotationEffect(Angle.degrees(game.rotation(for: card) ?? 0.0))
+                    .matchedGeometryEffect(id: card.id, in: dealingNamespace)
             }
         }
     }
@@ -133,14 +135,6 @@ struct SetGameView: View {
     var bottomBar: some View {
         ZStack {
             HStack {
-                Button(action: {
-                    withAnimation {
-                        dealt = []
-                        game.restart()
-                    }
-                }, label: {
-                    Text("Restart")
-                })
                 Spacer()
                 foundButton(for: 1)
             }
@@ -171,8 +165,8 @@ struct SetGameView: View {
     private struct CardConstants {
         static let aspectRatio: CGFloat = 2/3
         static let dealDuration: Double = 0.5
-        static let totalDealDurationFast: Double = 1
-        static let totalDealDurationSlow: Double = 2
+        static let totalDealDurationFast: Double = 0.75
+        static let totalDealDurationSlow: Double = 1.5
         static let undealtHeight: CGFloat = 90
         static let undealtWidth = undealtHeight * aspectRatio
     }

@@ -30,18 +30,35 @@ struct CardView: View {
                 }
             }
         }
+        .rotationEffect(Angle.degrees(borderColor == .green ? 360 : 0))
+        .animation(.easeInOut(duration: CardConstants.matchingAnimationDuration), value: borderColor)
+        .scaleEffect(borderColor == .red ? CardConstants.mismatchingScale : 1)
+        .animation(.easeInOut(duration: CardConstants.mismatchingAnimationDuration), value: borderColor)
     }
     
     var cardBorder: some View {
-        RoundedRectangle(cornerRadius: 10)
-            .stroke(lineWidth: borderWidth)
-            .foregroundColor(borderColor)
+        let rr = RoundedRectangle(cornerRadius: CardConstants.borderCornerRadius)
+        return rr
+            .fill(Color.cardBackground)
+            .overlay(
+                rr
+                    .stroke(lineWidth: borderWidth)
+                    .foregroundColor(borderColor)
+            )
+
     }
     
     var cardShape: some View {
         CardShape(shape: card.shape)
             .shaded(by: card.shading, with: card.color)
             .foregroundColor(card.color)
+    }
+    
+    struct CardConstants {
+        static let matchingAnimationDuration: Double = 1
+        static let mismatchingAnimationDuration: Double = 0.5
+        static let mismatchingScale: CGFloat = 0.85
+        static let borderCornerRadius: CGFloat = 10
     }
 }
 
