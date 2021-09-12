@@ -46,7 +46,7 @@ struct CardView: View {
 struct CardView_Previews: PreviewProvider {
     static var previews: some View {
         CardView(
-            card: Card(variant1: .option1, variant2: .option1, variant3: .option1, variant4: .option3),
+            card: Card(variant1: .option1, variant2: .option1, variant3: .option1, variant4: .option3, id: 0),
             borderColor: .gray,
             borderWidth: 1.5
         )

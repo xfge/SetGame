@@ -8,6 +8,9 @@
 import Foundation
 
 struct SetGame {
+    private(set) var allCards: [Card] = []
+    private(set) var deck: [Card] = []
+    
     private(set) var activeCards: [Card] = []
     private(set) var matchedCards: [Card] = []
     private(set) var mismatchedCards: [Card] = []
@@ -35,7 +38,6 @@ struct SetGame {
     }
     
     private var lastMatchedAt = Date()
-    private var deck: [Card] = []
     
     // Extra credit 3: Keep score somehow in your Set game.
     var scores: [Int] = [0, 0]
@@ -62,18 +64,23 @@ struct SetGame {
         activePlayer = player
     }
     
-    mutating func dealCards(_ numCards: Int) {
+    @discardableResult
+    mutating func dealCards(_ numCards: Int) -> [Card] {
         // Extra credit 5: penalize players who chose Deal 3 More Cards when a Set was actually available to be chosen
         if firstThreeMatchingCard != nil {
             // With two players introduced, we regard "deal cards" a shared action between players without penalty.
             // score -= 1
         }
-        
+                
+        var dealtCards: [Card] = []
         for _ in 0..<numCards {
             if hasMoreOpenCards {
-                activeCards.append(deck.remove(at: Int.random(in: 0..<deck.count)))
+                dealtCards.append(deck.remove(at: Int.random(in: 0..<deck.count)))
             }
         }
+        activeCards.append(contentsOf: dealtCards)
+        
+        return dealtCards
     }
     
     mutating func tap(card: Card) {
@@ -85,13 +92,8 @@ struct SetGame {
         if matchedCards.count == 3 {
             matchedCards.forEach { card in
                 if let cardIndex = activeCards.firstIndex(where: { $0.id == card.id }) {
-                    if hasMoreOpenCards {
-                        // R8: Replace those 3 matching Set cards with new ones.
-                        activeCards[cardIndex] = deck.remove(at: Int.random(in: 0..<deck.count))
-                    } else {
-                        // R8: If the deck is empty, the space of the matched cards will be released to the remaining cards.
-                        activeCards.remove(at: cardIndex)
-                    }
+                    // As a new rule in assignment 4, all matched cards are simply removed.
+                    activeCards.remove(at: cardIndex)
                 }
             }
             // R8: If the touched card was part of a matching Set, then select no card
@@ -113,17 +115,21 @@ struct SetGame {
     }
     
     mutating func reset() {
-        deck = []
+        allCards = []
+        var id = 0
         for variant1 in Card.Variant.allCases {
             for variant2 in Card.Variant.allCases {
                 for variant3 in Card.Variant.allCases {
                     for variant4 in Card.Variant.allCases {
-                        deck.append(Card(variant1: variant1, variant2: variant2, variant3: variant3, variant4: variant4))
+                        allCards.append(Card(variant1: variant1, variant2: variant2, variant3: variant3, variant4: variant4, id: id))
+                        id += 1
                     }
                 }
             }
         }
-        deck.shuffle()
+        
+        allCards.shuffle()
+        deck = allCards
         
         activeCards = []
         selectedCards = []

@@ -13,7 +13,7 @@ struct Card: Identifiable {
     let variant3: Variant
     let variant4: Variant
     
-    let id = UUID()
+    let id: Int
     
     enum Variant: CaseIterable {
         case option1, option2, option3

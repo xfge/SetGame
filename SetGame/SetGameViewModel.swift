@@ -10,11 +10,14 @@ import SwiftUI
 class SetGameViewModel: ObservableObject {
     @Published private var model: SetGame
     
-    init(initialNumberOfCards: Int = 12) {
-        model = SetGame(initialNumberOfCards: initialNumberOfCards)
+    init() {
+        model = SetGame(initialNumberOfCards: 0)
     }
     
-    // All active/open cards
+    var allCards: [Card] {
+        model.allCards
+    }
+    
     var cards: [Card] {
         model.activeCards
     }
@@ -35,11 +38,10 @@ class SetGameViewModel: ObservableObject {
     
     func restart() {
         model.reset()
-        model.dealCards(12)
     }
     
-    func dealCards() {
-        model.dealCards(3)
+    func dealCards(_ numberOfCards: Int = 3) -> [Card] {
+        model.dealCards(numberOfCards)
     }
     
     func cheat() {
@@ -48,9 +50,6 @@ class SetGameViewModel: ObservableObject {
     
     func claim(by player: Int?) {
         model.claim(by: player)
-        Timer.scheduledTimer(withTimeInterval: 5, repeats: false) { [unowned self] _ in
-            model.claim(by: nil)
-        }
     }
     
     enum PlayerStatus {
