@@ -69,11 +69,9 @@ struct SetGameView: View {
     var deckCards: some View {
         ZStack {
             ForEach(game.allCards.filter(isUndealt)) { card in
-                Rectangle()
+                CardView(card: card, isFaceUp: false)
+                    .rotationEffect(Angle.degrees(game.rotation(for: card) ?? 0.0))
                     .matchedGeometryEffect(id: card.id, in: dealingNamespace)
-                    .cornerRadius(10)
-                    .aspectRatio(CardConstants.aspectRatio, contentMode: .fit)
-                    .foregroundColor(.gray)
                     .zIndex(zIndex(of: card))
                     .onTapGesture {
                         if game.isDealCardsEnabled {
@@ -100,7 +98,7 @@ struct SetGameView: View {
     var discardedCards: some View {
         ZStack {
             ForEach(game.discardedCards) { card in
-                CardView(card: card, borderColor: .gray, borderWidth: 1.5)
+                CardView(card: card)
                     .rotationEffect(Angle.degrees(game.rotation(for: card) ?? 0.0))
                     .matchedGeometryEffect(id: card.id, in: dealingNamespace)
             }
