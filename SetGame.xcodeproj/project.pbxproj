@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2802E6DFBE96F62ED2AC62E1 /* Cardify.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2802E4E3F2A97B0A81600CC4 /* Cardify.swift */; };
 		AB344D9D26D542BA00708F75 /* Squiggle.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB344D9C26D542BA00708F75 /* Squiggle.swift */; };
 		AB344DA126D5458800708F75 /* StripView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB344DA026D5458800708F75 /* StripView.swift */; };
 		AB344DA326D9465F00708F75 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB344DA226D9465F00708F75 /* Color.swift */; };
@@ -24,6 +25,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2802E4E3F2A97B0A81600CC4 /* Cardify.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cardify.swift; sourceTree = "<group>"; };
 		AB344D9C26D542BA00708F75 /* Squiggle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Squiggle.swift; sourceTree = "<group>"; };
 		AB344DA026D5458800708F75 /* StripView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StripView.swift; sourceTree = "<group>"; };
 		AB344DA226D9465F00708F75 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
@@ -111,6 +113,7 @@
 				AB344DA026D5458800708F75 /* StripView.swift */,
 				ABEE390F26D249D80035BEB8 /* AspectVGrid.swift */,
 				AB344DA226D9465F00708F75 /* Color.swift */,
+				2802E4E3F2A97B0A81600CC4 /* Cardify.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -196,6 +199,7 @@
 				AB36D28F26D2321000D6589C /* SetGameApp.swift in Sources */,
 				AB344DA126D5458800708F75 /* StripView.swift in Sources */,
 				AB36D2A026D2364200D6589C /* SetGameViewModel.swift in Sources */,
+				2802E6DFBE96F62ED2AC62E1 /* Cardify.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

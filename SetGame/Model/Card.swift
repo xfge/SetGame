@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Card: Identifiable {
+struct Card: Identifiable, Equatable {
     let variant1: Variant
     let variant2: Variant
     let variant3: Variant

@@ -28,6 +28,10 @@ class SetGameViewModel: ObservableObject {
         model.discardedCards
     }
     
+    var matchedCardsPendingDiscard: [Card]? {
+        model.matchedCards.count == 3 ? model.matchedCards : nil
+    }
+    
     func score(for player: Int) -> Int {
         model.scores[player]
     }
@@ -46,8 +50,16 @@ class SetGameViewModel: ObservableObject {
         model.reset()
     }
     
-    func dealCards(_ numberOfCards: Int = 3) -> [Card] {
+    func deal(_ numberOfCards: Int = 3) -> [Card] {
         model.dealCards(numberOfCards)
+    }
+    
+    func discard(_ cards: [Card]) {
+        model.discard(cards)
+    }
+    
+    func remove(_ cards: [Card]) {
+        model.remove(cards)
     }
     
     func cheat() {
@@ -63,7 +75,7 @@ class SetGameViewModel: ObservableObject {
     }
     
     enum MatchingStatus {
-        case none, selected, matched, mismatched
+        case none, selected, matched, mismatched, pendingDiscard
     }
     
     // MARK: - UI property utils
@@ -106,11 +118,11 @@ class SetGameViewModel: ObservableObject {
         }
         return cardRotation[card.id]
     }
-    
-    // MARK: - Private methods
-    
-    private func matchingStatus(for card: Card) -> MatchingStatus {
-        if model.matchedCards.contains(where: { $0.id == card.id }) {
+        
+    func matchingStatus(for card: Card) -> MatchingStatus {
+        if model.discardedCards.contains(where: { $0.id == card.id }) {
+            return .pendingDiscard
+        } else if model.matchedCards.contains(where: { $0.id == card.id }) {
             return .matched
         } else if model.mismatchedCards.contains(where: { $0.id == card.id }) {
             return .mismatched

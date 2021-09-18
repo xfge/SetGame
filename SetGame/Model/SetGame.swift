@@ -73,10 +73,6 @@ struct SetGame {
             // score -= 1
         }
         
-        if matchedCards.count == 3 {
-            clearMatchedCards()
-        }
-        
         var dealtCards: [Card] = []
         for _ in 0..<numCards {
             if hasMoreOpenCards {
@@ -92,25 +88,30 @@ struct SetGame {
         if mismatchedCards.count == 3 {
             mismatchedCards = []
         }
-        
-        if matchedCards.count == 3 {
-            clearMatchedCards()
 
-            // R8: If the touched card was part of a matching Set, then select no card
-            if matchedCards.contains(where: { $0.id == card.id }) {
-                matchedCards = []
-                return
-            } else {
-                matchedCards = []
-            }
-        }
-        
         if activePlayer != nil {
             if let selectedCardIndex = selectedCards.firstIndex(where: { $0.id == card.id }) {
                 selectedCards.remove(at: selectedCardIndex)
             } else {
                 selectedCards.append(card)
             }
+        }
+    }
+
+    mutating func remove(_ cards: [Card]) {
+        for card in cards {
+            if let index = openCards.firstIndex(where: { $0.id == card.id }) {
+                openCards.remove(at: index)
+            }
+            if let index = matchedCards.firstIndex(where: { $0.id == card.id }) {
+                matchedCards.remove(at: index)
+            }
+        }
+    }
+    
+    mutating func discard(_ cards: [Card]) {
+        for card in cards {
+            discardedCards.append(card)
         }
     }
     
@@ -141,23 +142,14 @@ struct SetGame {
     
     // Extra credit 6: Add a “cheat” button to your UI.
     mutating func cheat() {
-        selectedCards = []
-        mismatchedCards = []
         if let (card1, card2, card3) = firstThreeMatchingCard {
             matchedCards = [card1, card2, card3]
+            selectedCards = []
+            mismatchedCards = []
         }
     }
     
     // MARK: - Private methods
-    
-    private mutating func clearMatchedCards() {
-        matchedCards.forEach { card in
-            if let cardIndex = openCards.firstIndex(where: { $0.id == card.id }) {
-                // As a new rule in assignment 4, all matched cards are simply removed.
-                discardedCards.append(openCards.remove(at: cardIndex))
-            }
-        }
-    }
     
     // check whether the 3 selected cards are matched or not
     private func match(card1: Card, card2: Card, card3: Card) -> Bool {

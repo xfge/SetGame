@@ -10,61 +10,29 @@ import SwiftUI
 struct CardView: View {
     var card: Card
     var borderColor: Color = .gray
-    var borderWidth: CGFloat = 1.5
+    var borderWidth: CGFloat = 1.0
     var isFaceUp = true
     
     var body: some View {
-        ZStack {
-            cardBorder
-                .animation(.none, value: borderWidth)
-                .animation(.none, value: borderColor)
-            if isFaceUp {
-                GeometryReader { geometry in
-                    let itemWidth = geometry.size.height / 3 * 0.6
-                    VStack(spacing: itemWidth / 5) {
-                        Spacer()
-                        ForEach(0..<card.symbolCount, id: \.self) { _ in
-                            cardShape
-                        }
+        GeometryReader { geometry in
+            let itemWidth = geometry.size.height / 3 * 0.6
+            VStack(spacing: itemWidth / 5) {
+                Spacer()
+                ForEach(0..<card.symbolCount, id: \.self) { _ in
+                    cardShape
+                }
                         .aspectRatio(2, contentMode: .fit)
                         .frame(width: geometry.size.width, height: itemWidth)
-                        Spacer()
-                    }
-                }
-            } else {
-                Text("❓").font(.largeTitle)
+                Spacer()
             }
-
         }
-        .rotationEffect(Angle.degrees(borderColor == .green ? 360 : 0))
-        .animation(.easeInOut(duration: CardConstants.matchingAnimationDuration), value: borderColor)
-        .scaleEffect(borderColor == .red ? CardConstants.mismatchingScale : 1)
-        .animation(.easeInOut(duration: CardConstants.mismatchingAnimationDuration), value: borderColor)
-    }
-    
-    var cardBorder: some View {
-        let rr = RoundedRectangle(cornerRadius: CardConstants.borderCornerRadius)
-        return rr
-            .fill(Color.cardBackground)
-            .overlay(
-                rr
-                    .stroke(lineWidth: borderWidth)
-                    .foregroundColor(borderColor)
-            )
-
+            .cardify(isFaceUp: isFaceUp, strokeWidth: borderWidth, strokeColor: borderColor)
     }
     
     var cardShape: some View {
         CardShape(shape: card.shape)
             .shaded(by: card.shading, with: card.color)
             .foregroundColor(card.color)
-    }
-    
-    struct CardConstants {
-        static let matchingAnimationDuration: Double = 1
-        static let mismatchingAnimationDuration: Double = 0.5
-        static let mismatchingScale: CGFloat = 0.9
-        static let borderCornerRadius: CGFloat = 10
     }
 }
 
