@@ -35,14 +35,10 @@ class SetGameViewModel: ObservableObject {
     func score(for player: Int) -> Int {
         model.scores[player]
     }
-    
-    var isDealCardsEnabled: Bool {
-        model.hasMoreOpenCards
-    }
-    
+
     // MARK: - Intents
 
-    func tap(card: Card) {
+    func tap(_ card: Card) {
         model.tap(card: card)
     }
     

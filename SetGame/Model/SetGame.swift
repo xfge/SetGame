@@ -55,10 +55,6 @@ struct SetGame {
         dealCards(initialNumberOfCards)
     }
     
-    var hasMoreOpenCards: Bool {
-        !deck.isEmpty
-    }
-    
     // MARK: - Intents
     
     mutating func claim(by player: Int?) {
@@ -75,7 +71,7 @@ struct SetGame {
         
         var dealtCards: [Card] = []
         for _ in 0..<numCards {
-            if hasMoreOpenCards {
+            if !deck.isEmpty {
                 dealtCards.append(deck.remove(at: 0))
             }
         }
